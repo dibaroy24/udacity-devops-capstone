@@ -1,1 +1,1 @@
-aws cloudformation create-stack --stack-name nginxcluster-worker-nodes --template-url  --capabilities CAPABILITY_IAM
+aws cloudformation create-stack --stack-name udacity-devops-capstone-nginxcluster-worker-nodes --template-url https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/amazon-eks-nodegroup-role.yaml --capabilities CAPABILITY_IAM
