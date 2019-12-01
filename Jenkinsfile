@@ -29,7 +29,7 @@ node {
       echo 'Deploying to AWS...'
       dir ('./') {
         withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
-            sh "aws eks --region us-east-1 update-kubeconfig --name CapstoneEKS-VUUZkwHTDVPa"
+            sh "aws eks --region us-east-1 update-kubeconfig --name udacity-devops-capstone-nginxcluster"
             sh "kubectl apply -f infrastructure/aws-auth-cm.yaml"
             sh "kubectl set image deployments/capstone-app capstone-app=${registry}:latest"
             sh "kubectl apply -f infrastructure/app-deployment.yml"
