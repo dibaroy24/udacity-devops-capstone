@@ -19,7 +19,8 @@ pipeline {
 		stage("Linting") {
 			steps {
 				echo 'Linting...'
-				sh '/home/ubuntu/.local/bin/hadolint Dockerfile'
+				sh '/home/dibaroy/.local/bin/hadolint Dockerfile'
+				// sh '/home/ubuntu/.local/bin/hadolint Dockerfile'
 				// sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
 			}
 		}
