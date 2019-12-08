@@ -20,7 +20,7 @@ pipeline {
 			steps {
 				echo 'Linting...'
 				// sh '/home/ubuntu/.local/bin/hadolint Dockerfile'
-				docker run --rm -i hadolint/hadolint < Dockerfile
+				sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
 			}
 		}
 		stage('Building image') {
