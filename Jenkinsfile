@@ -28,11 +28,11 @@ pipeline {
 		stage('Building image') {
 			steps {
 				echo 'Building Docker image...'
-				withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+				withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'Udacity54', usernameVariable: 'dibaroy')]) {
 					sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-					sh "docker build -t dibaroy24/udacity-devops-capstone ."
-					sh "docker tag dibaroy24/udacity-devops-capstone dibaroy24/udacity-devops-capstone"
-					sh "docker push dibaroy24/udacity-devops-capstone"
+					sh "docker build -t dibaroy/udacity_devops_capstone_app ."
+					sh "docker tag dibaroy/uudacity_devops_capstone_app dibaroy/udacity_devops_capstone_app"
+					sh "docker push dibaroy/udacity_devops_capstone_app"
 				}
 			}
 		}
