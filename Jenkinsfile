@@ -37,16 +37,16 @@ pipeline {
 				}
 			}
 		}
-		stage('Deploying Docker Image') {
-			steps {
-				echo 'Deploying Docker image...'
-				script {
-					docker.withRegistry( '', registryCredential ) {
-						dockerImage.push()
-					}
-				}
-			}
-		}
+		// stage('Deploying Docker Image') {
+			// steps {
+				// echo 'Deploying Docker image...'
+				// script {
+					// docker.withRegistry( '', registryCredential ) {
+						// dockerImage.push()
+					// }
+				// }
+			// }
+		// }
 		stage('Deploying') {
 			steps {
 				echo 'Deploying to AWS...'
