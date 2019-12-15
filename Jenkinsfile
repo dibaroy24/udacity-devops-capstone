@@ -1,4 +1,8 @@
 pipeline {
+	 environment {
+		 registry = "dibaroy/udacity_devops_capstone_app"
+		 registryCredential = 'dockerhub'
+	 }
   agent any
 	stages {
 		stage('Checking out git repo') {
@@ -25,14 +29,21 @@ pipeline {
 				sh 'hadolint Dockerfile'
 			}
 		}
-		stage('Building image') {
+		stage('Building Docker Image') {
 			steps {
 				echo 'Building Docker image...'
-				withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'Udacity54', usernameVariable: 'dibaroy')]) {
-					sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-					sh "docker build -t dibaroy/udacity_devops_capstone_app ."
-					sh "docker tag dibaroy/uudacity_devops_capstone_app dibaroy/udacity_devops_capstone_app"
-					sh "docker push dibaroy/udacity_devops_capstone_app"
+				script {
+					dockerImage = docker.build registry + ":$BUILD_NUMBER"
+				}
+			}
+		}
+		stage('Deploying Docker Image') {
+			steps {
+				echo 'Deploying Docker image...'
+				script {
+					docker.withRegistry( '', registryCredential ) {
+						dockerImage.push()
+					}
 				}
 			}
 		}
