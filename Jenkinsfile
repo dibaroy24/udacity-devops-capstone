@@ -46,7 +46,7 @@ pipeline {
 					withAWS(credentials: 'udacity-user', region: 'us-east-1') {
 					// withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'udacity-user', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 						sh "aws2 eks --region us-east-1 update-kubeconfig --name udacity-devops-capstone-nginxcluster"
-						sh "kubectl apply -f aws-auth-cm.yml"
+						// sh "kubectl apply -f aws-auth-cm.yml"
 						sh "kubectl set image deployments/capstone-app capstone-app=dibaroy24/udacity-devops-capstone:latest"
 						sh "kubectl apply -f app-deployment.yml"
 						sh "kubectl get nodes"
