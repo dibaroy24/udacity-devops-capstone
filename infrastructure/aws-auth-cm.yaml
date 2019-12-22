@@ -10,7 +10,8 @@ data:
       groups:
         - system:bootstrappers
         - system:nodes
-    - rolearn: arn:aws:iam::638224466109:role/udacity-user
+  mapUsers: |
+    - userarn: arn:aws:iam::638224466109:role/udacity-user
       username: udacity-user
       groups:
         - system:masters
