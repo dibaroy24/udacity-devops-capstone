@@ -11,7 +11,7 @@ data:
         - system:bootstrappers
         - system:nodes
   mapUsers: |
-    - userarn: arn:aws:iam::638224466109:role/udacity-user
+    - userarn: arn:aws:iam::638224466109:user/udacity-user
       username: udacity-user
       groups:
         - system:masters
