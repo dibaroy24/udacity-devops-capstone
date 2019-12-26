@@ -3,6 +3,7 @@ pipeline {
 	 environment {
 		 registry = "dibaroy/udacity_devops_capstone_app"
 		 registryCredential = 'dockerhub'
+		 dockerImage = ''
 	 }
   agent any
 	stages {
@@ -36,6 +37,16 @@ pipeline {
 				script {
 					// dockerImage = docker.build registry + ":$BUILD_NUMBER"
 					dockerImage = docker.build registry + ":latest"
+				}
+			}
+		}
+		stage('Deploying Docker Image') {
+			steps {
+				echo 'Deploying Docker image...'
+				script {
+					docker.withRegistry( '', registryCredential ) {
+						dockerImage.push()
+					}
 				}
 			}
 		}
