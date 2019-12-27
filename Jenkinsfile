@@ -2,8 +2,6 @@
 pipeline {
 	 environment {
 		 registry = "dibaroy/udacity_devops_capstone_app"
-		 registryCredential = 'dibaroy'
-		 dockerImage = ''
 	 }
   agent any
 	stages {
@@ -47,7 +45,7 @@ pipeline {
 					withAWS(credentials: 'udacity-user', region: 'us-east-1') {
 						// sh "aws2 eks --region us-east-1 update-kubeconfig --name udacity-devops-capstone-nginxcluster --role-arn arn:aws:iam::638224466109:role/udacity-devops-capstone-eks-node-NodeInstanceRole-15AR16QYFM2XP"
 						sh "aws2 eks --region us-east-1 update-kubeconfig --name udacity-devops-capstone-nginxcluster"
-						// sh "curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl"
+						sh "curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl"
 						sh "chmod +x ./kubectl"
 						sh "mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH"
 						//sh "kubectl apply -f aws-auth-cm.yaml"
