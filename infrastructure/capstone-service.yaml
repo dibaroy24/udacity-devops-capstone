@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: capstone-serv
+  labels:
+    app: capstone-serv
+spec:
+  ports:
+  - port: 8000
+    targetPort: http-server
+  selector:
+    app: capstone
+  type: LoadBalancer
