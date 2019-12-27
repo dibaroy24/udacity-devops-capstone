@@ -2,7 +2,7 @@
 pipeline {
 	 environment {
 		 registry = "dibaroy/udacity_devops_capstone_app"
-		 registryCredential = 'dockerhub'
+		 registryCredential = 'dibaroy'
 		 dockerImage = ''
 	 }
   agent any
