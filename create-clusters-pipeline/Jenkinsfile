@@ -1,7 +1,6 @@
 pipeline {
 	agent any
 	stages {
-
 		stage('Create kubernetes cluster') {
 			steps {
 				withAWS(region:'us-east-2', credentials:'ecr_credentials') {
@@ -23,18 +22,5 @@ pipeline {
 				}
 			}
 		}
-
-		
-
-		stage('Create conf file cluster') {
-			steps {
-				withAWS(region:'us-east-2', credentials:'ecr_credentials') {
-					sh '''
-						aws eks --region us-east-2 update-kubeconfig --name devopscapstonecluster
-					'''
-				}
-			}
-		}
-
 	}
 }
