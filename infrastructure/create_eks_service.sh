@@ -1,1 +1,0 @@
-aws cloudformation create-stack --stack-name udacity-devops-capstone-eks-serv --template-url https://amazon-eks.s3-us-west-2.amazonaws.com/cloudformation/2019-11-15/amazon-eks-vpc-sample.yaml --capabilities CAPABILITY_IAM

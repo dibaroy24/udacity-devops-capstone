@@ -1,71 +1,89 @@
-@Library('github.com/releaseworks/jenkinslib') _
 pipeline {
-	 environment {
-		 registry = "dibaroy/udacity_devops_capstone_app"
-	 }
-  agent any
+	agent any
 	stages {
-		stage('Checking out git repo') {
+
+		stage('Lint HTML') {
 			steps {
-				// def registry = 'dibaroy24/udacity-devops-capstone'
-				echo 'Checkout...'
-				checkout scm
+				sh 'tidy -q -e *.html'
 			}
 		}
-		stage('Checking environment') {
+		
+		stage('Build Docker Image') {
 			steps {
-				echo 'Checking environment...'
-				sh 'git --version'
-				echo "Branch: ${env.BRANCH_NAME}"
-				sh 'docker -v'
-			}
-		}
-		stage("Linting") {
-			steps {
-				echo 'Linting...'
-				// sh 'sudo -S /home/dibaroy/.local/bin/hadolint Dockerfile'
-				// sh '/home/ubuntu/.local/bin/hadolint Dockerfile'
-				// sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
-				sh 'hadolint Dockerfile'
-			}
-		}
-		stage('Building Docker Image') {
-			steps {
-				echo 'Building Docker image...'
-				script {
-					// dockerImage = docker.build registry + ":$BUILD_NUMBER"
-					dockerImage = docker.build registry + ":latest"
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
+						docker build -t dibaroy/udacity_devops_capstone_app .
+					'''
 				}
 			}
 		}
-		stage('Deploying') {
+
+		stage('Push Image To Dockerhub') {
 			steps {
-				echo 'Deploying to AWS EKS...'
-				dir ('infrastructure') {
-					withAWS(credentials: 'udacity-user', region: 'us-east-1') {
-						// sh "aws2 eks --region us-east-1 update-kubeconfig --name udacity-devops-capstone-nginxcluster --role-arn arn:aws:iam::638224466109:role/udacity-devops-capstone-eks-node-NodeInstanceRole-15AR16QYFM2XP"
-						sh "aws2 eks --region us-east-1 update-kubeconfig --name udacity-devops-capstone-nginxcluster"
-						sh "curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl"
-						sh "chmod +x ./kubectl"
-						sh "mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH"
-						//sh "kubectl apply -f aws-auth-cm.yaml"
-						sh "kubectl create -f capstone-controller.yaml"
-						sh "kubectl describe replicationcontroller/capstone-controller-1"
-						sh "kubectl create -f capstone-service.yaml"
-						sh "kubectl get services"
-						// sh "kubectl set image deployments/capstone-app capstone-app=dibaroy24/udacity-devops-capstone:latest"
-						// sh "kubectl apply -f app-deployment.yml"
-						sh "kubectl get nodes"
-						sh "kubectl get pods"
-					}
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
+						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+						docker push dibaroy/udacity_devops_capstone_app
+					'''
 				}
 			}
 		}
-		stage("Cleaning up") {
+
+		stage('Set current kubectl context') {
 			steps {
-				echo 'Cleaning up...'
-				sh "docker system prune"
+				withAWS(region:'us-east-2', credentials:'ecr_credentials') {
+					sh '''
+						kubectl config use-context arn:aws:eks:us-east-2:638224466109:cluster/devopscapstonecluster
+					'''
+				}
 			}
 		}
+
+		stage('Deploy blue container') {
+			steps {
+				withAWS(region:'us-east-2', credentials:'ecr_credentials') {
+					sh '''
+						kubectl apply -f ./blue-controller.json
+					'''
+				}
+			}
+		}
+
+		stage('Deploy green container') {
+			steps {
+				withAWS(region:'us-east-2', credentials:'ecr_credentials') {
+					sh '''
+						kubectl apply -f ./green-controller.json
+					'''
+				}
+			}
+		}
+
+		stage('Create the service in the cluster, redirect to blue') {
+			steps {
+				withAWS(region:'us-east-2', credentials:'ecr_credentials') {
+					sh '''
+						kubectl apply -f ./blue-service.json
+					'''
+				}
+			}
+		}
+
+		stage('Wait for user approval') {
+            steps {
+                input "Are you ready to redirect traffic to green?"
+            }
+        }
+
+		stage('Create the service in the cluster, redirect to green') {
+			steps {
+				withAWS(region:'us-east-2', credentials:'ecr_credentials') {
+					sh '''
+						kubectl apply -f ./green-service.json
+					'''
+				}
+			}
+		}
+
 	}
 }
