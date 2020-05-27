@@ -9,7 +9,7 @@ In this project, I applied the skills and knowledge which were developed through
 
 ## About Project: 
 
-> I created a CI/CD pipeline for a basic website that deploys to a cluster in AWS EKS which is Blue/Green Deployment.
+I created a CI/CD pipeline for a basic website that deploys to a cluster in AWS EKS which is Blue/Green Deployment.
 
 ![img-1](result-images/project-img.JPG)
 
@@ -34,6 +34,11 @@ In this project, I applied the skills and knowledge which were developed through
 * Configure a deployment pipeline.
 * Include your Dockerfile/source code in the Git repository.
 * Include with your Linting step both a failed Linting screenshot and a successful Linting screenshot to show the Linter working properly.
+
+![img-2](result-images/failed-linting-snapshot.JPG)
+
+![img-3](result-images/passed-linting-snapshot.JPG)
+
 ## Step 5: Test your pipeline
 * Perform builds on your pipeline.
 * Verify that your pipeline works as you designed it.
@@ -41,7 +46,7 @@ In this project, I applied the skills and knowledge which were developed through
 
 ## Project Requirements:
 
-> To be able to use this CI/CD pipeline you will need to install:
+To be able to use this CI/CD pipeline you will need to install:
 
 * Jenkins
 * Blue Ocean Plugin in Jenkins
