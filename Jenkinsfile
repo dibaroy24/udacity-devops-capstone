@@ -1,6 +1,12 @@
 pipeline {
 	agent any
 	stages {
+	
+		stage('Checking out git repo') {
+			steps {
+				checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github_credentials', url: 'https://github.com/dibaroy24/udacity-devops-capstone.git']]])
+			}
+		}
 
 		stage('Lint HTML') {
 			steps {
