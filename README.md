@@ -44,6 +44,10 @@ I created a CI/CD pipeline for a basic website that deploys to a cluster in AWS 
 * Verify that your pipeline works as you designed it.
 * Take a screenshot of the Jenkins pipeline showing deployment and a screenshot of your AWS EC2 page showing the newly created (for blue/green) or modified (for rolling) instances. Make sure you name your instances differently between blue and green deployments.
 
+![img-4](result-images/12_Kubernetes Services.JPG)
+
+![img-5](result-images/website-snapshot.JPG)
+
 ## Project Requirements:
 
 To be able to use this CI/CD pipeline you will need to install:
@@ -59,14 +63,13 @@ To be able to use this CI/CD pipeline you will need to install:
 
 ## The files included are:
 ```sh
-* /result-images : Screenshot the result of deploy.
-* /create-clusters-pipeline : CloudFormation Script of Cluster Pipeline file 
-* /Deploy-containers-pipeline : Deployment Script of Containers Pipeline file
-* Jenkinsfile : Jenkinsfile for Creating Pipeline
-* Dockerfile : Dockerfile for building the image 
-* green-controller.json : Create a replication controller green pod
-* green-service.json : Create the green service
-* blue-controller.json : Create a replication controller blue pod
-* blue-service.json : Create the blue service
-* index.html : Web site Index file.
+* /result-images: Folder containing the screenshots the result of deploy
+* /create-clusters-pipeline: Folder containing the CloudFormation Script of the create Cluster Pipeline file 
+* Jenkinsfile: Jenkinsfile for creating the blue/green deployment pipeline
+* Dockerfile: Dockerfile for building the image 
+* green-controller.json: Create a replication controller green pod
+* green-service.json: Create the green service
+* blue-controller.json: Create a replication controller blue pod
+* blue-service.json: Create the blue service
+* index.html: My website Index file
 ```
