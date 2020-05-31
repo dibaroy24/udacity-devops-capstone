@@ -44,7 +44,7 @@ I created a CI/CD pipeline for a basic website that deploys to a cluster in AWS 
 * Verify that your pipeline works as you designed it.
 * Take a screenshot of the Jenkins pipeline showing deployment and a screenshot of your AWS EC2 page showing the newly created (for blue/green) or modified (for rolling) instances. Make sure you name your instances differently between blue and green deployments.
 
-![img-4](result-images/12_Kubernetes Services.JPG)
+![img-4](result-images/12_Kubernetes_Services.JPG)
 
 ![img-5](result-images/website-snapshot.JPG)
 
